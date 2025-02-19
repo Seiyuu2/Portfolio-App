@@ -1,9 +1,11 @@
+// Test comment
 import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   Image,
+  ImageBackground,
   FlatList,
   Switch,
   TouchableOpacity,
@@ -12,7 +14,7 @@ import {
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const toggleSwitch = () => setIsDarkMode((prev) => !prev);
+  const toggleSwitch = () => setIsDarkMode(prev => !prev);
 
   // Define theme colors based on dark mode state
   const theme = {
@@ -26,122 +28,135 @@ export default function App() {
   const projects = [
     {
       id: '1',
-      title: 'Project One',
+      title: 'Project One: DnD Canrael',
       description:
         'A cool project built with React Native. It features dynamic UI elements and thoughtful design to deliver a great user experience.',
       image: 'https://placekitten.com/300/200',
     },
     {
       id: '2',
-      title: 'Project Two',
+      title: 'Project Two: Age of Ashes Short Novel',
       description:
         'An amazing project built with Expo that showcases innovative ideas and efficient coding practices.',
       image: 'https://placekitten.com/301/200',
     },
     {
       id: '3',
-      title: 'Project Three',
+      title: 'Project Three: Redoran the Knight of the Broken Blade',
       description:
         'A portfolio piece highlighting mobile development skills with interactive elements and smooth animations.',
       image: 'https://placekitten.com/302/200',
     },
   ];
 
+  // Conditional background image sources
+  const lightBg = { uri: 'https://i.imgur.com/0QrXiV0.jpeg' }; // Light mode wallpaper
+  const darkBg = { uri: 'https://i.imgur.com/zyldN83.png' };  // Dark mode wallpaper
+
   const renderProject = ({ item }) => (
     <ProjectCard project={item} theme={theme} />
   );
 
   return (
-    <FlatList
-      // Apply the container style including background color here
-      style={[styles.container, { backgroundColor: theme.background }]}
-      ListHeaderComponent={
-        <>
-          {/* Header Section */}
-          <View style={styles.header}>
-            <Image
-              source={{ uri: 'https://placekitten.com/200/200' }}
-              style={styles.profileImage}
-            />
-            <Text style={[styles.name, { color: theme.text }]}>John Doe</Text>
-            <Text style={[styles.bio, { color: theme.text }]}>
-              Mobile Developer with a passion for building beautiful and functional
-              applications.
-            </Text>
-          </View>
+    <ImageBackground
+      source={isDarkMode ? darkBg : lightBg}
+      style={[styles.imageBackground, { backgroundColor: theme.background }]}
+      resizeMode="cover"
+    >
+      <FlatList
+        style={styles.flatList}
+        data={projects}
+        keyExtractor={(item) => item.id}
+        renderItem={renderProject}
+        contentContainerStyle={styles.contentContainer}
+        ListHeaderComponent={
+          <>
+            {/* Profile Section */}
+            <View style={styles.sectionWrapper}>
+              <View style={styles.header}>
+                <Image
+                  source={{ uri: 'https://placekitten.com/200/200' }}
+                  style={styles.profileImage}
+                />
+                <Text style={[styles.name, { color: theme.text }]}>John Doe</Text>
+                <Text style={[styles.bio, { color: theme.text }]}>
+                  Mobile Developer with a passion for building beautiful and functional applications.
+                </Text>
+              </View>
+            </View>
 
-          {/* Skills Section */}
-          <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: theme.text }]}>Skills</Text>
-            <View style={styles.skillsContainer}>
-              {['React Native', 'React', 'Node.js', 'Expo', 'JavaScript'].map(
-                (skill) => (
-                  <View
-                    key={skill}
-                    style={[styles.skillBadge, { backgroundColor: theme.accent }]}
-                  >
-                    <Text style={styles.skillText}>{skill}</Text>
-                  </View>
-                )
-              )}
+            {/* Skills Section */}
+            <View style={styles.sectionWrapper}>
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>Skills</Text>
+                <View style={styles.skillsContainer}>
+                  {['React Native', 'React', 'Node.js', 'Expo', 'JavaScript'].map(
+                    (skill) => (
+                      <View
+                        key={skill}
+                        style={[styles.skillBadge, { backgroundColor: theme.accent }]}
+                      >
+                        <Text style={styles.skillText}>{skill}</Text>
+                      </View>
+                    )
+                  )}
+                </View>
+              </View>
+            </View>
+
+            {/* Contact Section */}
+            <View style={styles.sectionWrapper}>
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>Contact</Text>
+                <Text style={[styles.contactText, { color: theme.text }]}>
+                  Email: johndoe@example.com
+                </Text>
+                <TouchableOpacity
+                  onPress={() => Linking.openURL('https://linkedin.com/in/johndoe')}
+                >
+                  <Text style={[styles.contactLink, { color: theme.accent }]}>LinkedIn</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => Linking.openURL('https://github.com/johndoe')}>
+                  <Text style={[styles.contactLink, { color: theme.accent }]}>GitHub</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Projects Section Header */}
+            <View style={styles.sectionWrapper}>
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>Projects</Text>
+              </View>
+            </View>
+          </>
+        }
+        ListFooterComponent={
+          <View style={styles.sectionWrapper}>
+            <View style={styles.section}>
+              {/* Theme Toggle Section */}
+              <Text style={[styles.sectionTitle, { color: theme.text }]}>Theme Toggle</Text>
+              <View style={styles.toggleContainer}>
+                <Text style={{ color: theme.text }}>Light</Text>
+                <Switch
+                  value={isDarkMode}
+                  onValueChange={toggleSwitch}
+                  trackColor={{ false: '#767577', true: '#81b0ff' }}
+                  thumbColor={isDarkMode ? '#f5dd4b' : '#f4f3f4'}
+                />
+                <Text style={{ color: theme.text }}>Dark</Text>
+              </View>
             </View>
           </View>
-
-          {/* Contact Section */}
-          <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: theme.text }]}>Contact</Text>
-            <Text style={[styles.contactText, { color: theme.text }]}>
-              Email: johndoe@example.com
-            </Text>
-            <TouchableOpacity
-              onPress={() => Linking.openURL('https://linkedin.com/in/johndoe')}
-            >
-              <Text style={[styles.contactLink, { color: theme.accent }]}>
-                LinkedIn
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => Linking.openURL('https://github.com/johndoe')}>
-              <Text style={[styles.contactLink, { color: theme.accent }]}>GitHub</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Projects Section Header */}
-          <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: theme.text }]}>Projects</Text>
-          </View>
-        </>
-      }
-      data={projects}
-      keyExtractor={(item) => item.id}
-      renderItem={renderProject}
-      contentContainerStyle={styles.contentContainer}
-      ListFooterComponent={
-        <View style={styles.section}>
-          {/* Theme Toggle Section */}
-          <Text style={[styles.sectionTitle, { color: theme.text }]}>
-            Theme Toggle
-          </Text>
-          <View style={styles.toggleContainer}>
-            <Text style={{ color: theme.text }}>Light</Text>
-            <Switch
-              value={isDarkMode}
-              onValueChange={toggleSwitch}
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              thumbColor={isDarkMode ? '#f5dd4b' : '#f4f3f4'}
-            />
-            <Text style={{ color: theme.text }}>Dark</Text>
-          </View>
-        </View>
-      }
-    />
+        }
+      />
+    </ImageBackground>
   );
 }
 
 // ProjectCard component to render individual project items with expandable details
 function ProjectCard({ project, theme }) {
   const [expanded, setExpanded] = useState(false);
-
-  const toggleExpanded = () => setExpanded((prev) => !prev);
+  const toggleExpanded = () => setExpanded(prev => !prev);
 
   return (
     <TouchableOpacity
@@ -154,12 +169,7 @@ function ProjectCard({ project, theme }) {
       </Text>
       {expanded && (
         <View style={styles.projectDetails}>
-          <Text
-            style={[
-              styles.projectDescription,
-              { color: theme.text, textAlign: 'center' },
-            ]}
-          >
+          <Text style={[styles.projectDescription, { color: theme.text, textAlign: 'center' }]}>
             {project.description}
           </Text>
           <Image source={{ uri: project.image }} style={styles.projectImage} />
@@ -170,15 +180,28 @@ function ProjectCard({ project, theme }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  imageBackground: {
+    flex: 1,
+  },
+  flatList: {
     flex: 1,
   },
   contentContainer: {
-    alignItems: 'center', // Center all content horizontally
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  // Section wrapper: ensures the section container is centered
+  sectionWrapper: {
+    width: '90%',
+    alignSelf: 'center', // This ensures the wrapper is centered
+    backgroundColor: 'rgba(128, 128, 128, 0.5)', // semi-transparent grey
+    borderRadius: 10,
+    marginVertical: 10,
+    padding: 10,
   },
   header: {
     alignItems: 'center',
-    padding: 20,
+    padding: 10,
   },
   profileImage: {
     width: 120,
@@ -196,9 +219,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   section: {
-    padding: 20,
-    width: '100%',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   sectionTitle: {
     fontSize: 22,
@@ -236,8 +258,8 @@ const styles = StyleSheet.create({
   projectCard: {
     padding: 15,
     borderRadius: 10,
-    marginBottom: 15,
-    width: '90%',
+    marginVertical: 10,
+    width: '100%',
     alignItems: 'center',
   },
   projectTitle: {
@@ -262,7 +284,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '50%',
+    width: '60%',
     marginTop: 10,
   },
 });
