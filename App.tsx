@@ -6,12 +6,9 @@ import {
   Image,
   FlatList,
   Switch,
-  ScrollView,
   TouchableOpacity,
   Linking,
 } from 'react-native';
-
-
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -56,6 +53,8 @@ export default function App() {
 
   return (
     <FlatList
+      // Apply the container style including background color here
+      style={[styles.container, { backgroundColor: theme.background }]}
       ListHeaderComponent={
         <>
           {/* Header Section */}
@@ -137,7 +136,6 @@ export default function App() {
     />
   );
 }
-
 
 // ProjectCard component to render individual project items with expandable details
 function ProjectCard({ project, theme }) {
@@ -259,9 +257,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 150,
     borderRadius: 10,
-  },
-  projectsList: {
-    alignItems: 'center',
   },
   toggleContainer: {
     flexDirection: 'row',
