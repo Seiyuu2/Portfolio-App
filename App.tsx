@@ -24,27 +24,30 @@ export default function App() {
     accent: isDarkMode ? '#BB86FC' : '#6200EE',
   };
 
+  // Compute the wrapper background: semi-transparent white for light mode, grey for dark mode
+  const wrapperBg = isDarkMode ? 'rgba(128,128,128,0.5)' : 'rgba(255,255,255,0.7)';
+
   // Dummy project data with additional details and an image URL
   const projects = [
     {
       id: '1',
       title: 'Project One: DnD Canrael',
       description:
-        'A cool project built with React Native. It features dynamic UI elements and thoughtful design to deliver a great user experience.',
+        'A Vast DND world with expansive lore and 4 Continents and a fully homebrew setting, a Grimdark Post Modern world where the age of machines has long since come to an end, where magic is the poison which is the bane of the old worlds life. A 5e Adventure that has spanned 6 years of my life already.',
       image: 'https://placekitten.com/300/200',
     },
     {
       id: '2',
       title: 'Project Two: Age of Ashes Short Novel',
       description:
-        'An amazing project built with Expo that showcases innovative ideas and efficient coding practices.',
+        'A Short story set in Canrael',
       image: 'https://placekitten.com/301/200',
     },
     {
       id: '3',
       title: 'Project Three: Redoran the Knight of the Broken Blade',
       description:
-        'A portfolio piece highlighting mobile development skills with interactive elements and smooth animations.',
+        'A Short story set in Canrael',
       image: 'https://placekitten.com/302/200',
     },
   ];
@@ -72,25 +75,25 @@ export default function App() {
         ListHeaderComponent={
           <>
             {/* Profile Section */}
-            <View style={styles.sectionWrapper}>
+            <View style={[styles.sectionWrapper, { backgroundColor: wrapperBg }]}>
               <View style={styles.header}>
                 <Image
                   source={{ uri: 'https://placekitten.com/200/200' }}
                   style={styles.profileImage}
                 />
-                <Text style={[styles.name, { color: theme.text }]}>John Doe</Text>
+                <Text style={[styles.name, { color: theme.text }]}>Kurt Lyle T. Paulino</Text>
                 <Text style={[styles.bio, { color: theme.text }]}>
-                  Mobile Developer with a passion for building beautiful and functional applications.
+                  A Writer, Gamer, Computer Science student currently semi active as a voice actor and novelist!
                 </Text>
               </View>
             </View>
 
             {/* Skills Section */}
-            <View style={styles.sectionWrapper}>
+            <View style={[styles.sectionWrapper, { backgroundColor: wrapperBg }]}>
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.text }]}>Skills</Text>
                 <View style={styles.skillsContainer}>
-                  {['React Native', 'React', 'Node.js', 'Expo', 'JavaScript'].map(
+                  {['Writing', 'React', 'React Native', 'Voice Acting', 'League of Legends'].map(
                     (skill) => (
                       <View
                         key={skill}
@@ -105,25 +108,25 @@ export default function App() {
             </View>
 
             {/* Contact Section */}
-            <View style={styles.sectionWrapper}>
+            <View style={[styles.sectionWrapper, { backgroundColor: wrapperBg }]}>
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.text }]}>Contact</Text>
                 <Text style={[styles.contactText, { color: theme.text }]}>
-                  Email: johndoe@example.com
+                  Email: Kurt_Lyle_Paulino@dlsl.edu.ph
                 </Text>
                 <TouchableOpacity
-                  onPress={() => Linking.openURL('https://linkedin.com/in/johndoe')}
+                  onPress={() => Linking.openURL('https://www.instagram.com/sei__taku/')}
                 >
-                  <Text style={[styles.contactLink, { color: theme.accent }]}>LinkedIn</Text>
+                  <Text style={[styles.contactLink, { color: theme.accent }]}>Instagram</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => Linking.openURL('https://github.com/johndoe')}>
+                <TouchableOpacity onPress={() => Linking.openURL('https://github.com/Seiyuu2')}>
                   <Text style={[styles.contactLink, { color: theme.accent }]}>GitHub</Text>
                 </TouchableOpacity>
               </View>
             </View>
 
             {/* Projects Section Header */}
-            <View style={styles.sectionWrapper}>
+            <View style={[styles.sectionWrapper, { backgroundColor: wrapperBg }]}>
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.text }]}>Projects</Text>
               </View>
@@ -131,7 +134,7 @@ export default function App() {
           </>
         }
         ListFooterComponent={
-          <View style={styles.sectionWrapper}>
+          <View style={[styles.sectionWrapper, { backgroundColor: wrapperBg }]}>
             <View style={styles.section}>
               {/* Theme Toggle Section */}
               <Text style={[styles.sectionTitle, { color: theme.text }]}>Theme Toggle</Text>
@@ -190,11 +193,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 20,
   },
-  // Section wrapper: ensures the section container is centered
+  // Section wrapper: now dynamically styled via inline prop; base styles remain for padding & borderRadius
   sectionWrapper: {
     width: '90%',
-    alignSelf: 'center', // This ensures the wrapper is centered
-    backgroundColor: 'rgba(128, 128, 128, 0.5)', // semi-transparent grey
+    alignSelf: 'center',
     borderRadius: 10,
     marginVertical: 10,
     padding: 10,
